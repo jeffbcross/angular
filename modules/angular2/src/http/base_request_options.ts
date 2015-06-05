@@ -1,8 +1,10 @@
+import {CONST_EXPR, CONST} from 'angular2/src/facade/lang';
 import {Headers} from './headers';
 import {URLSearchParams} from './url_search_params';
 import {RequestModesOpts, RequestMethods, RequestCacheOpts, RequestCredentialsOpts} from './enums';
 import {IRequestOptions} from './interfaces';
 
+@CONST()
 export class BaseRequestOptions {
   method: RequestMethods;
   headers: Headers;
@@ -23,4 +25,4 @@ export class BaseRequestOptions {
 }
 ;
 
-export var baseRequestOptions = Object.freeze(new BaseRequestOptions());
+export const baseRequestOptions = CONST_EXPR(new BaseRequestOptions());
