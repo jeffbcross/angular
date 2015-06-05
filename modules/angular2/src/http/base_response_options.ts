@@ -1,4 +1,4 @@
-import {Headers} from './Headers';
+import {Headers} from './headers';
 import {ResponseTypes} from './enums';
 import {IResponseOptions} from './interfaces';
 
