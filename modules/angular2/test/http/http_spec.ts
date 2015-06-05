@@ -12,7 +12,7 @@ import {
 } from 'angular2/test_lib';
 import {Http} from 'angular2/src/http/http';
 import {XHRBackend} from 'angular2/src/http/backends/xhr_backend';
-import {httpBindings} from 'angular2/http';
+import {httpInjectables} from 'angular2/http';
 import {Injector, bind} from 'angular2/di';
 import {Backend as MockBackend} from 'angular2/src/http/backends/mock_backend';
 import {Response} from 'angular2/src/http/static_response';
@@ -39,7 +39,7 @@ export function main() {
     var baseResponse;
     var sampleObserver;
     beforeEach(() => {
-      injector = Injector.resolveAndCreate([httpBindings, bind(XHRBackend).toClass(MockBackend)]);
+      injector = Injector.resolveAndCreate([httpInjectables, bind(XHRBackend).toClass(MockBackend)]);
       http = injector.get(Http);
       backend = injector.get(XHRBackend);
       baseResponse = new Response('base response');
