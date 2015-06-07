@@ -1,7 +1,8 @@
-import {IRequest, IResponse} from '../../../src/http/interfaces';
-import {Request} from '../../../src/http/static_request';
-import {Response} from '../../../src/http/static_response';
-import {ReadyStates} from '../../../src/http/enums';
+import {Injectable} from 'angular2/di';
+import {IRequest, IResponse} from 'angular2/src/http/interfaces';
+import {Request} from 'angular2/src/http/static_request';
+import {Response} from 'angular2/src/http/static_response';
+import {ReadyStates} from 'angular2/src/http/enums';
 import * as Rx from 'rx';
 
 /**
@@ -72,8 +73,8 @@ export class Connection {
 }
 
 
-
-export class Backend {
+@Injectable()
+export class MockBackend {
   connections: Rx.ReplaySubject<Connection>;
   connectionsArray: Array<Connection>;
   pendingConnections: Rx.Observable<Connection>;
