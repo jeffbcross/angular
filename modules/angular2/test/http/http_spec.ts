@@ -40,11 +40,8 @@ export function main() {
     var sampleObserver;
     beforeEach(() => {
       injector = Injector.resolveAndCreate([MockBackend, bind(Http).toFactory(HttpFactory, [MockBackend])]);
-      injector._bindings.filter(binding => !!binding).forEach(binding => console.log(binding.key))
-      
       http = injector.get(Http);
       backend = injector.get(MockBackend);
-      console.log('backend', backend);
       baseResponse = new Response('base response');
       sampleObserver = new SpyObserver();
     });
@@ -52,7 +49,7 @@ export function main() {
     afterEach(() => { /*backend.verifyNoPendingRequests();*/ });
 
 
-    iit('should return an Observable', () => {
+    it('should return an Observable', () => {
       expect(typeof http(url).subscribe).toBe('function');
       backend.resolveAllConnections();
     });
@@ -60,34 +57,40 @@ export function main() {
 
     it('should perform a get request for given url if only passed a string',
        inject([AsyncTestCompleter], (async) => {
+         var connection;
+         backend.connections.subscribe((c) => connection = c);
          var subscription = http('http://basic.connection')
                                 .subscribe(res => {
                                   expect(res.text()).toBe('base response');
                                   async.done();
                                 });
-         backend.connections.subscribe((c) => c.mockRespond(baseResponse));
+         connection.mockRespond(baseResponse)
        }));
 
 
     it('should perform a get request for given url if passed a ConnectionConfig instance',
        inject([AsyncTestCompleter], async => {
+         var connection;
+         backend.connections.subscribe((c) => connection = c);
          http('http://basic.connection', {method: ReadyStates.UNSENT})
              .subscribe(res => {
                expect(res.text()).toBe('base response');
                async.done();
              });
-         backend.connections.subscribe((c) => c.mockRespond(baseResponse));
+         connection.mockRespond(baseResponse)
        }));
 
 
     it('should perform a get request for given url if passed a dictionary',
        inject([AsyncTestCompleter], async => {
+         var connection;
+         backend.connections.subscribe((c) => connection = c);
          http(url, {method: ReadyStates.UNSENT})
              .subscribe(res => {
                expect(res.text()).toBe('base response');
                async.done();
              });
-         backend.connections.subscribe((c) => c.mockRespond(baseResponse));
+         connection.mockRespond(baseResponse)
        }));
   });
 }

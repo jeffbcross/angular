@@ -24,14 +24,14 @@ export class Connection {
 
   readyState: ReadyStates;
   request: Request;
-  response: Rx.ReplaySubject<Response>;
+  response: Rx.Subject<Response>;
 
   constructor(req: Request) {
     // State
     if (Rx.hasOwnProperty('default')) {
-      this.response = new ((<any>Rx).default.Rx.ReplaySubject)();
+      this.response = new ((<any>Rx).default.Rx.Subject)();
     } else {
-      this.response = new Rx.ReplaySubject<Response>();
+      this.response = new Rx.Subject<Response>();
     }
 
     this.readyState = ReadyStates.OPEN;
@@ -72,18 +72,17 @@ export class Connection {
   }
 }
 
-
 @Injectable()
 export class MockBackend {
-  connections: Rx.ReplaySubject<Connection>;
+  connections: Rx.Subject<Connection>;
   connectionsArray: Array<Connection>;
   pendingConnections: Rx.Observable<Connection>;
   constructor() {
     this.connectionsArray = [];
     if (Rx.hasOwnProperty('default')) {
-      this.connections = new (<any>Rx).default.Rx.ReplaySubject();
+      this.connections = new (<any>Rx).default.Rx.Subject();
     } else {
-      this.connections = new Rx.ReplaySubject<Connection>();
+      this.connections = new Rx.Subject<Connection>();
     }
     this.connections.subscribe(connection => this.connectionsArray.push(connection));
     this.pendingConnections = this.connections.filter((c) => c.readyState < ReadyStates.DONE);
