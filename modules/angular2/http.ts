@@ -1,3 +1,9 @@
+/**
+ * @module
+ * @public
+ * @description
+ * The `http` module provides services to perform http requests.
+ */
 import {bind, Binding} from 'angular2/di';
 import {Http, HttpFactory} from './src/http/http';
 import {XHRBackend} from 'angular2/src/http/backends/xhr_backend';
