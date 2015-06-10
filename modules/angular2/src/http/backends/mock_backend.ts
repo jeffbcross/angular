@@ -5,11 +5,15 @@ import {ReadyStates} from 'angular2/src/http/enums';
 import * as Rx from 'rx';
 
 /**
- * Connection represents a request and response for an underlying transport, like XHR or mock.
- * The mock implementation contains helper methods to respond to connections within tests.
- * API subject to change and expand.
+ *
+ * Connection class used by MockBackend
+ * 
+ * This class is typically not instantiated directly, but instances can be retrieved by subscribing to the `connections` {@link Observable} of
+ * {@link MockBackend} in order to mock responses to requests.
+ *  
+ * @exportedAs angular2/http
  **/
-export class Connection {
+export class MockConnection {
   /**
    * Observer to call on download progress, if provided in config.
    **/
@@ -45,8 +49,19 @@ export class Connection {
   }
 
   /**
-   * Called after a connection has been established.
-   **/
+   * Send a mock response to the connection. This response is the value that is emitted to the {@link Observable} returned by {@link Http}.
+   * 
+   * #Example
+   * 
+   * ```
+   * var connection;
+   * backend.connections.subscribe(c => connection = c);
+   * http('data.json').subscribe(res => console.log(res.text()));
+   * connection.mockRespond(new Response('fake response')); //logs 'fake response'
+   * ```
+   * 
+   */
+  
   mockRespond(res: Response) {
     if (this.readyState >= ReadyStates.DONE) {
       throw new Error('Connection has already been resolved');
@@ -71,17 +86,44 @@ export class Connection {
   }
 }
 
+/**
+ * A mock backend for testing the {@link Http} service.
+ * 
+ * This class can be injected in tests, and should be used to override bindings
+ * to other backends, such as {@link XHRBackend}.
+ *
+ * #Example
+ *
+ * ```
+ * it('should get some data', inject([AsyncTestCompleter], (async) => {
+ *   var connection;
+ *   var injector = Injector.resolveAndCreate([MockBackend, bind(Http).toFactory(HttpFactory, [MockBackend])]);
+ *   var http = injector.get(Http);
+ *   var backend = injector.get(MockBackend);
+ *   //Assign any newly-created connection to local variable
+ *   backend.connections.subscribe(c => connection = c);
+ *   http('data.json').subscribe((res) => {
+ *     expect(res.text()).toBe('awesome');
+ *     async.done();
+ *   });
+ *   connection.mockRespond(new Response('awesome'));
+ * }));
+ * ```
+ *
+ * @exportedAs angular2/http
+ *
+ **/
 @Injectable()
 export class MockBackend {
-  connections: Rx.Subject<Connection>;
-  connectionsArray: Array<Connection>;
-  pendingConnections: Rx.Observable<Connection>;
+  connections: Rx.Subject<MockConnection>;
+  connectionsArray: Array<MockConnection>;
+  pendingConnections: Rx.Observable<MockConnection>;
   constructor() {
     this.connectionsArray = [];
     if (Rx.hasOwnProperty('default')) {
       this.connections = new (<any>Rx).default.Rx.Subject();
     } else {
-      this.connections = new Rx.Subject<Connection>();
+      this.connections = new Rx.Subject<MockConnection>();
     }
     this.connections.subscribe(connection => this.connectionsArray.push(connection));
     this.pendingConnections = this.connections.filter((c) => c.readyState < ReadyStates.DONE);
@@ -99,7 +141,7 @@ export class MockBackend {
     if (!req || !(req instanceof Request)) {
       throw new Error(`createConnection requires an instance of Request, got ${req}`);
     }
-    let connection = new Connection(req);
+    let connection = new MockConnection(req);
     this.connections.onNext(connection);
     return connection;
   }

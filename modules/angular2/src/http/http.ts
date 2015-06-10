@@ -11,6 +11,8 @@ import * as Rx from 'rx';
 /**
  * A function to perform http requests over XMLHttpRequest.
  *
+ * Note: the `Http` service is injected as a callable function, not as a class instance. This is accomplished by binding the `Http` token to a factory inside the {@link httpInjectables} list. 
+ * 
  * #Example
  *
  * ```
@@ -36,14 +38,12 @@ import * as Rx from 'rx';
  *
  *
  * This function is bound to a single underlying connection mechanism, such as XHR, which could be
- * mocked with dependency injection by replacing the `Backend` binding. For other transports, like
- * JSONP or Node, a separate http function would be created, such as httpJSONP.
+ * mocked with dependency injection by replacing the {@link XHRBackend} binding.
  *
  * @exportedAs angular2/http
  *
  **/
 
-// Abstract
 @Injectable()
 export class Http {
 }

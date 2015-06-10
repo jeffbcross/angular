@@ -4,7 +4,24 @@ import {RequestOptions, Request as IRequest} from './interfaces';
 import {Headers} from './headers';
 import {BaseException, RegExpWrapper} from 'angular2/src/facade/lang';
 
-// TODO(jeffbcross): implement body accessors
+// TODO(jeffbcross): properly implement body accessors
+/**
+ * Request constructor.
+ * 
+ * The Request's interface is inspired by the Request constructor defined in the [Fetch Spec](https://fetch.spec.whatwg.org/#request-class),
+ * but is considered a static value whose body can be accessed many times. There are other differences in the implementation, but this is the most significant.
+ * 
+ * This class is generated automatically and opaquely when calling the {@link Http} service, but soon can also be used to intantiate requests directly to pass into the {@link Http} service, pending resolution of [this issue](https://github.com/angular/angular/issues/2416).
+ * 
+ * #Example
+ * 
+ * ```
+ * var req = new Request('form-submit.php', {method: 'POST'});
+ * http(req).subscribe(res => console.log(res));
+ * ``` 
+ * 
+ * @exportedAs angular2/http
+ */
 export class Request implements IRequest {
   method: RequestMethods;
   mode: RequestModesOpts;
