@@ -6,9 +6,11 @@
  * class.
  */
 import {bind, Binding} from 'angular2/di';
-import {Http} from 'angular2/src/http/http';
+import {Http, Jsonp} from 'angular2/src/http/http';
 import {XHRBackend, XHRConnection} from 'angular2/src/http/backends/xhr_backend';
+import {JSONPBackend, JSONPConnection} from 'angular2/src/http/backends/jsonp_backend';
 import {BrowserXhr} from 'angular2/src/http/backends/browser_xhr';
+import {BrowserJsonp} from 'angular2/src/http/backends/browser_jsonp';
 import {BaseRequestOptions, RequestOptions} from 'angular2/src/http/base_request_options';
 import {ConnectionBackend} from 'angular2/src/http/interfaces';
 
@@ -65,4 +67,13 @@ export var httpInjectables: List<any> = [
   bind(RequestOptions).toClass(BaseRequestOptions),
   bind(ResponseOptions).toClass(BaseResponseOptions),
   Http
+];
+
+export var jsonpInjectables: List<any> = [
+  bind(ConnectionBackend)
+      .toClass(JSONPBackend),
+  BrowserJsonp,
+  bind(RequestOptions).toClass(BaseRequestOptions),
+  bind(ResponseOptions).toClass(BaseResponseOptions),
+  Jsonp
 ];

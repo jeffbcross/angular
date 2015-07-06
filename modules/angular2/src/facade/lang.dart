@@ -4,6 +4,8 @@ export 'dart:core' show Type, RegExp, print, DateTime;
 import 'dart:math' as math;
 import 'dart:convert' as convert;
 import 'dart:async' show Future;
+import 'dart:js' show context;
+import 'dart:collection' show LinkedHashMap, LinkedHashSet;
 
 class Math {
   static final _random = new math.Random();
@@ -188,6 +190,10 @@ class BaseException extends Error {
   }
 }
 
+Error makeTypeError([String message = ""]) {
+  return new BaseException(message);
+}
+
 const _NAN_KEY = const Object();
 
 // Dart can have identical(str1, str2) == false while str1 == str2
@@ -209,7 +215,7 @@ bool normalizeBool(bool obj) {
 }
 
 bool isJsObject(o) {
-  return false;
+  return o is LinkedHashMap || o is LinkedHashSet;
 }
 
 bool assertionsEnabled() {
@@ -246,4 +252,4 @@ class DateWrapper {
 }
 
 // needed to match the exports from lang.js
-var global = null;
+var global = context;

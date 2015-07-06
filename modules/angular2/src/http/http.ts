@@ -1,4 +1,4 @@
-import {isString, isPresent, isBlank} from 'angular2/src/facade/lang';
+import {isString, isPresent, isBlank, makeTypeError} from 'angular2/src/facade/lang';
 import {Injectable} from 'angular2/src/di/decorators';
 import {IRequestOptions, Connection, ConnectionBackend} from './interfaces';
 import {Request} from './static_request';
@@ -113,10 +113,9 @@ export class Http {
   request(url: string | Request, options?: IRequestOptions): EventEmitter {
     var responseObservable: EventEmitter;
     if (isString(url)) {
-      responseObservable = httpRequest(
-          this._backend,
-          new Request(mergeOptions(this._defaultOptions, options, RequestMethods.GET, url)));
-    } else if (url instanceof Request) {
+      url = new Request(mergeOptions(this._defaultOptions, options, RequestMethods.GET, url));
+    }
+    if (url instanceof Request) {
       responseObservable = httpRequest(this._backend, url);
     }
     return responseObservable;
@@ -174,5 +173,32 @@ export class Http {
   head(url: string, options?: IRequestOptions): EventEmitter {
     return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions, options,
                                                                RequestMethods.HEAD, url)));
+  }
+}
+
+@Injectable()
+export class Jsonp extends Http {
+  constructor(backend: ConnectionBackend, defaultOptions: RequestOptions) {
+    super(backend, defaultOptions);
+  }
+
+  /**
+   * Performs any type of http request. First argument is required, and can either be a url or
+   * a {@link Request} instance. If the first argument is a url, an optional {@link RequestOptions}
+   * object can be provided as the 2nd argument. The options object will be merged with the values
+   * of {@link BaseRequestOptions} before performing the request.
+   */
+  request(url: string | Request, options?: IRequestOptions): EventEmitter {
+    var responseObservable: EventEmitter;
+    if (isString(url)) {
+      url = new Request(mergeOptions(this._defaultOptions, options, RequestMethods.GET, url));
+    }
+    if (url instanceof Request) {
+      if (url.method !== RequestMethods.GET) {
+        makeTypeError('JSONP requests must use GET request method.');
+      }
+      responseObservable = httpRequest(this._backend, url);
+    }
+    return responseObservable;
   }
 }
