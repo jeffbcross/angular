@@ -6,6 +6,7 @@ import 'package:html/dom.dart';
 import 'dart:io';
 
 class Html5LibDomAdapter implements DomAdapter {
+  body: Body;
   static void makeCurrent() {
     setRootDomAdapter(new Html5LibDomAdapter());
   }

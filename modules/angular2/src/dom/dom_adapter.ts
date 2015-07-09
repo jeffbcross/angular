@@ -16,6 +16,7 @@ function _abstract() {
  * Provides DOM operations in an environment-agnostic way.
  */
 export class DomAdapter {
+  body:any;
   hasProperty(element, name: string): boolean { throw _abstract(); }
   setProperty(el: Element, name: string, value: any) { throw _abstract(); }
   getProperty(el: Element, name: string): any { throw _abstract(); }

@@ -22,16 +22,30 @@ import {Map} from 'angular2/src/facade/collection';
 import {RequestOptions, BaseRequestOptions} from 'angular2/src/http/base_request_options';
 import {BaseResponseOptions, ResponseOptions} from 'angular2/src/http/base_response_options';
 import {ResponseTypes, ReadyStates, RequestMethods} from 'angular2/src/http/enums';
+import {DomAdapter} from 'angular2/src/dom/dom_adapter';
 
 var addEventListenerSpy;
 var existingScripts = [];
 
+class MockElement {
+  addEventListener(){}
+}
+
+class MockDomAdapter {
+  body:any = {};
+  createScriptTag (attr:string, val:string) {
+    
+  }
+}
+
 class MockBrowserJsonp extends BrowserJsonp {
   src: string;
   callbacks: Map<string, (data: any) => any>;
-  constructor() {
-    super();
+  mockDomAdapter:MockDomAdapter
+  constructor(mockDomAdapter:MockDomAdapter) {
+    super(<DomAdapter>mockDomAdapter);
     this.callbacks = new Map();
+    this.mockDomAdapter = mockDomAdapter;
   }
 
   addEventListener(type: string, cb: (data: any) => any) { this.callbacks.set(type, cb); }
@@ -44,7 +58,7 @@ class MockBrowserJsonp extends BrowserJsonp {
   }
 
   build(url: string) {
-    var script = new MockBrowserJsonp();
+    var script = new MockBrowserJsonp(this.mockDomAdapter);
     script.src = url;
     existingScripts.push(script);
     return script;
@@ -63,10 +77,14 @@ export function main() {
 
     beforeEach(() => {
       let injector = Injector.resolveAndCreate([
+        MockDomAdapter,
+        bind(DomAdapter).toClass(MockDomAdapter),
         bind(ResponseOptions)
             .toClass(BaseResponseOptions),
-        bind(BrowserJsonp).toClass(MockBrowserJsonp),
-        JSONPBackend
+        bind(BrowserJsonp).toFactory((domAdapter) => {
+          return new MockBrowserJsonp(domAdapter);
+        }, [MockDomAdapter]),
+        [JSONPBackend]
       ]);
       backend = injector.get(JSONPBackend);
       let base = new BaseRequestOptions();
@@ -82,7 +100,7 @@ export function main() {
     describe('JSONPConnection', () => {
       it('should use the injected BaseResponseOptions to create the response',
          inject([AsyncTestCompleter], async => {
-           let connection = new JSONPConnection(sampleRequest, new MockBrowserJsonp(),
+           let connection = new JSONPConnection(sampleRequest, new MockBrowserJsonp(new MockDomAdapter()),
                                                 new ResponseOptions({type: ResponseTypes.Error}));
            ObservableWrapper.subscribe(connection.response, res => {
              expect(res.type).toBe(ResponseTypes.Error);
@@ -93,7 +111,7 @@ export function main() {
          }));
 
       it('should ignore load/callback when disposed', inject([AsyncTestCompleter], async => {
-           var connection = new JSONPConnection(sampleRequest, new MockBrowserJsonp());
+           var connection = new JSONPConnection(sampleRequest, new MockBrowserJsonp(new MockDomAdapter()));
            connection.dispose();
            expect(connection.readyState).toBe(ReadyStates.CANCELLED);
 
@@ -109,7 +127,7 @@ export function main() {
 
       it('should report error if loaded without invoking callback',
          inject([AsyncTestCompleter], async => {
-           let connection = new JSONPConnection(sampleRequest, new MockBrowserJsonp());
+           let connection = new JSONPConnection(sampleRequest, new MockBrowserJsonp(new MockDomAdapter()));
 
            ObservableWrapper.subscribe(
                connection.response,
@@ -126,7 +144,7 @@ export function main() {
          }));
 
       it('should report error if script contains error', inject([AsyncTestCompleter], async => {
-           let connection = new JSONPConnection(sampleRequest, new MockBrowserJsonp());
+           let connection = new JSONPConnection(sampleRequest, new MockBrowserJsonp(new MockDomAdapter()));
 
            ObservableWrapper.subscribe(connection.response,
                                        res => {
@@ -148,15 +166,16 @@ export function main() {
               let base = new BaseRequestOptions();
               let req = new Request(
                   base.merge(new RequestOptions({url: 'https://google.com', method: method})));
-              expect(() => new JSONPConnection(req, new MockBrowserJsonp())).toThrow();
+              expect(() => new JSONPConnection(req, new MockBrowserJsonp(new MockDomAdapter()))).toThrow();
             });
       });
 
       it('should respond with data passed to callback', inject([AsyncTestCompleter], async => {
-           let connection = new JSONPConnection(sampleRequest, new MockBrowserJsonp());
+           let connection = new JSONPConnection(sampleRequest, new MockBrowserJsonp(new MockDomAdapter()));
 
            ObservableWrapper.subscribe(connection.response, res => {
-             expect(res.json()).toEqual(({fake_payload: true, blob_id: 12345})) async.done();
+             expect(res.json()).toEqual(({fake_payload: true, blob_id: 12345})); 
+             async.done();
            });
 
            connection.finished(({fake_payload: true, blob_id: 12345}));

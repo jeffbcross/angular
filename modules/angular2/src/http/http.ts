@@ -102,7 +102,7 @@ function mergeOptions(defaultOpts, providedOpts, method, url): RequestOptions {
  **/
 @Injectable()
 export class Http {
-  constructor(private _backend: ConnectionBackend, private _defaultOptions: RequestOptions) {}
+  constructor(protected backend: ConnectionBackend, protected defaultOptions: RequestOptions) {}
 
   /**
    * Performs any type of http request. First argument is required, and can either be a url or
@@ -113,10 +113,10 @@ export class Http {
   request(url: string | Request, options?: IRequestOptions): EventEmitter {
     var responseObservable: EventEmitter;
     if (isString(url)) {
-      url = new Request(mergeOptions(this._defaultOptions, options, RequestMethods.GET, url));
+      url = new Request(mergeOptions(this.defaultOptions, options, RequestMethods.GET, url));
     }
     if (url instanceof Request) {
-      responseObservable = httpRequest(this._backend, url);
+      responseObservable = httpRequest(this.backend, url);
     }
     return responseObservable;
   }
@@ -125,7 +125,7 @@ export class Http {
    * Performs a request with `get` http method.
    */
   get(url: string, options?: IRequestOptions): EventEmitter {
-    return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions, options,
+    return httpRequest(this.backend, new Request(mergeOptions(this.defaultOptions, options,
                                                                RequestMethods.GET, url)));
   }
 
@@ -134,8 +134,8 @@ export class Http {
    */
   post(url: string, body: string, options?: IRequestOptions): EventEmitter {
     return httpRequest(
-        this._backend,
-        new Request(mergeOptions(this._defaultOptions.merge(new RequestOptions({body: body})),
+        this.backend,
+        new Request(mergeOptions(this.defaultOptions.merge(new RequestOptions({body: body})),
                                  options, RequestMethods.POST, url)));
   }
 
@@ -144,8 +144,8 @@ export class Http {
    */
   put(url: string, body: string, options?: IRequestOptions): EventEmitter {
     return httpRequest(
-        this._backend,
-        new Request(mergeOptions(this._defaultOptions.merge(new RequestOptions({body: body})),
+        this.backend,
+        new Request(mergeOptions(this.defaultOptions.merge(new RequestOptions({body: body})),
                                  options, RequestMethods.PUT, url)));
   }
 
@@ -153,7 +153,7 @@ export class Http {
    * Performs a request with `delete` http method.
    */
   delete (url: string, options?: IRequestOptions): EventEmitter {
-    return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions, options,
+    return httpRequest(this.backend, new Request(mergeOptions(this.defaultOptions, options,
                                                                RequestMethods.DELETE, url)));
   }
 
@@ -162,8 +162,8 @@ export class Http {
    */
   patch(url: string, body: string, options?: IRequestOptions): EventEmitter {
     return httpRequest(
-        this._backend,
-        new Request(mergeOptions(this._defaultOptions.merge(new RequestOptions({body: body})),
+        this.backend,
+        new Request(mergeOptions(this.defaultOptions.merge(new RequestOptions({body: body})),
                                  options, RequestMethods.PATCH, url)));
   }
 
@@ -171,7 +171,7 @@ export class Http {
    * Performs a request with `head` http method.
    */
   head(url: string, options?: IRequestOptions): EventEmitter {
-    return httpRequest(this._backend, new Request(mergeOptions(this._defaultOptions, options,
+    return httpRequest(this.backend, new Request(mergeOptions(this.defaultOptions, options,
                                                                RequestMethods.HEAD, url)));
   }
 }
@@ -191,13 +191,13 @@ export class Jsonp extends Http {
   request(url: string | Request, options?: IRequestOptions): EventEmitter {
     var responseObservable: EventEmitter;
     if (isString(url)) {
-      url = new Request(mergeOptions(this._defaultOptions, options, RequestMethods.GET, url));
+      url = new Request(mergeOptions(this.defaultOptions, options, RequestMethods.GET, url));
     }
     if (url instanceof Request) {
       if (url.method !== RequestMethods.GET) {
         makeTypeError('JSONP requests must use GET request method.');
       }
-      responseObservable = httpRequest(this._backend, url);
+      responseObservable = httpRequest(this.backend, url);
     }
     return responseObservable;
   }
