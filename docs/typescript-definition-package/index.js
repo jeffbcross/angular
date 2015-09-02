@@ -71,7 +71,16 @@ module.exports = new Package('angular-v2-docs', [jsdocPackage, nunjucksPackage, 
     },
     {
       id: 'angular2/test_lib',
-      references: ['./angular2.d.ts'],
+      references: ['./angular2.d.ts', '../jasmine/jasmine.d.ts'],
+      remapTypes: {
+        Type: 'ng.Type',
+        Binding: 'ng.Binding',
+        ViewMetadata: 'ng.ViewMetadata',
+        Injector: 'ng.Injector',
+        Predicate: 'ng.Predicate',
+        ElementRef: 'ng.ElementRef',
+
+      },
       modules: {'angular2/test_lib': {namespace: 'ngTestLib', id: 'angular2/test_lib'}}
     }
   ];

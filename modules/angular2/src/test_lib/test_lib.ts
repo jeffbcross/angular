@@ -16,7 +16,7 @@ export var proxy: ClassDecorator = (t) => t;
 
 var _global: jasmine.GlobalPolluter = <any>(typeof window === 'undefined' ? global : window);
 
-export var afterEach = _global.afterEach;
+export var afterEach:Function = _global.afterEach;
 
 export interface NgMatchers extends jasmine.Matchers {
   toBe(expected: any): boolean;
@@ -82,19 +82,19 @@ function _describe(jsmFn, ...args) {
   return suite;
 }
 
-export function describe(...args) {
+export function describe(...args):void {
   return _describe(jsmDescribe, ...args);
 }
 
-export function ddescribe(...args) {
+export function ddescribe(...args):void {
   return _describe(jsmDDescribe, ...args);
 }
 
-export function xdescribe(...args) {
+export function xdescribe(...args):void {
   return _describe(jsmXDescribe, ...args);
 }
 
-export function beforeEach(fn) {
+export function beforeEach(fn):void {
   if (runnerStack.length > 0) {
     // Inside a describe block, beforeEach() uses a BeforeEachRunner
     var runner = runnerStack[runnerStack.length - 1];
@@ -120,7 +120,7 @@ export function beforeEach(fn) {
  *     bind(SomeToken).toValue(myValue),
  *   ]);
  */
-export function beforeEachBindings(fn) {
+export function beforeEachBindings(fn):void {
   jsmBeforeEach(() => {
     var bindings = fn();
     if (!bindings) return;
@@ -128,7 +128,7 @@ export function beforeEachBindings(fn) {
   });
 }
 
-function _it(jsmFn, name, fn, timeOut) {
+function _it(jsmFn, name, fn, timeOut):void {
   var runner = runnerStack[runnerStack.length - 1];
 
   jsmFn(name, function(done) {
@@ -158,15 +158,15 @@ function _it(jsmFn, name, fn, timeOut) {
   }, timeOut);
 }
 
-export function it(name, fn, timeOut = null) {
+export function it(name, fn, timeOut = null):void {
   return _it(jsmIt, name, fn, timeOut);
 }
 
-export function xit(name, fn, timeOut = null) {
+export function xit(name, fn, timeOut = null):void {
   return _it(jsmXIt, name, fn, timeOut);
 }
 
-export function iit(name, fn, timeOut = null) {
+export function iit(name, fn, timeOut = null):void {
   return _it(jsmIIt, name, fn, timeOut);
 }
 

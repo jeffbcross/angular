@@ -24,12 +24,26 @@ module.exports = {
         } else {
           text.push(': any');
         }
+
+
         var string = text.join('');
+        if (string.indexOf('inspectElement') >= 0) {
+          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+          console.log(string);
+          console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+        }
         for (var key in remap) {
           if (remap.hasOwnProperty(key)) {
             string = string.replace(new RegExp('\\b' + key + '\\b', 'gm'), remap[key]);
           }
         }
+
+        if (string.indexOf('inspectElement') >= 0) {
+          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+          console.log(string);
+          console.log('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<')
+        }
+
         return string;
       } catch (e) {
         console.log(e.toString(), e.stack);
