@@ -42,7 +42,8 @@ module.exports = new Package('angular-v2-docs', [jsdocPackage, nunjucksPackage, 
     'angular2/web_worker/worker.ts',
     'angular2/web_worker/ui.ts',
     'angular2/router.ts',
-    'angular2/http.ts'
+    'angular2/http.ts',
+    'angular2/test_lib.ts'
   ];
   readTypeScriptModules.basePath = path.resolve(path.resolve(__dirname, '../../modules'));
 
@@ -67,6 +68,11 @@ module.exports = new Package('angular-v2-docs', [jsdocPackage, nunjucksPackage, 
       references: ['./angular2.d.ts'],
       remapTypes: {Type: 'ng.Type', Observable: 'ng.Observable', EventEmitter: 'ng.EventEmitter'},
       modules: {'angular2/http': {namespace: 'ngHttp', id: 'angular2/http'}}
+    },
+    {
+      id: 'angular2/test_lib',
+      references: ['./angular2.d.ts'],
+      modules: {'angular2/test_lib': {namespace: 'ngTestLib', id: 'angular2/test_lib'}}
     }
   ];
 })
