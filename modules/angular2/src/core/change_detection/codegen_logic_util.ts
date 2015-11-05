@@ -6,6 +6,12 @@ import {BindingTarget} from './binding_record';
 import {DirectiveRecord} from './directive_record';
 import {ChangeDetectionStrategy} from './constants';
 import {BaseException} from 'angular2/src/facade/exceptions';
+import {
+  afterContentChecked,
+  afterContentInit,
+  afterViewChecked,
+  afterViewInit
+} from 'angular2/src/core/linker/interfaces';
 
 /**
  * Class responsible for providing change detection logic for change detector classes.
@@ -189,11 +195,11 @@ export class CodegenLogicUtil {
       var dir = directiveRecords[i];
       if (dir.callAfterContentInit) {
         res.push(
-            `if(${this._names.getStateName()} ${eq} ${this._changeDetectorStateName}.NeverChecked) ${this._names.getDirectiveName(dir.directiveIndex)}.afterContentInit();`);
+            `if(${this._names.getStateName()} ${eq} ${this._changeDetectorStateName}.NeverChecked) ${this._names.getDirectiveName(dir.directiveIndex)}.${afterContentInit}();`);
       }
 
       if (dir.callAfterContentChecked) {
-        res.push(`${this._names.getDirectiveName(dir.directiveIndex)}.afterContentChecked();`);
+        res.push(`${this._names.getDirectiveName(dir.directiveIndex)}.${afterContentChecked}();`);
       }
     }
     return res;
@@ -207,11 +213,11 @@ export class CodegenLogicUtil {
       var dir = directiveRecords[i];
       if (dir.callAfterViewInit) {
         res.push(
-            `if(${this._names.getStateName()} ${eq} ${this._changeDetectorStateName}.NeverChecked) ${this._names.getDirectiveName(dir.directiveIndex)}.afterViewInit();`);
+            `if(${this._names.getStateName()} ${eq} ${this._changeDetectorStateName}.NeverChecked) ${this._names.getDirectiveName(dir.directiveIndex)}.${afterViewInit}();`);
       }
 
       if (dir.callAfterViewChecked) {
-        res.push(`${this._names.getDirectiveName(dir.directiveIndex)}.afterViewChecked();`);
+        res.push(`${this._names.getDirectiveName(dir.directiveIndex)}.${afterViewChecked}();`);
       }
     }
     return res;

@@ -23,6 +23,15 @@ import {
   AfterViewChecked
 } from 'angular2/lifecycle_hooks';
 import {Directive, Component, View, ViewMetadata} from 'angular2/src/core/metadata';
+import {
+  onChanges,
+  onInit,
+  doCheck,
+  afterContentInit,
+  afterContentChecked,
+  afterViewInit,
+  afterViewChecked
+} from 'angular2/src/core/linker/interfaces';
 
 export function main() {
   describe('directive lifecycle integration spec', () => {
@@ -59,7 +68,7 @@ export function main() {
 @Directive({selector: '[lifecycle-dir]'})
 class LifecycleDir implements DoCheck {
   constructor(private _log: Log) {}
-  doCheck() { this._log.add("child_doCheck"); }
+  [doCheck]() { this._log.add("child_doCheck"); }
 }
 
 @Component({selector: "[lifecycle]", inputs: ['field']})
@@ -69,19 +78,19 @@ class LifecycleCmp implements OnChanges, OnInit, DoCheck, AfterContentInit, Afte
   field;
   constructor(private _log: Log) {}
 
-  onChanges(_) { this._log.add("onChanges"); }
+  [onChanges](_) { this._log.add("onChanges"); }
 
-  onInit() { this._log.add("onInit"); }
+  [onInit]() { this._log.add("onInit"); }
 
-  doCheck() { this._log.add("doCheck"); }
+  [doCheck]() { this._log.add("doCheck"); }
 
-  afterContentInit() { this._log.add("afterContentInit"); }
+  [afterContentInit]() { this._log.add("afterContentInit"); }
 
-  afterContentChecked() { this._log.add("afterContentChecked"); }
+  [afterContentChecked]() { this._log.add("afterContentChecked"); }
 
-  afterViewInit() { this._log.add("afterViewInit"); }
+  [afterViewInit]() { this._log.add("afterViewInit"); }
 
-  afterViewChecked() { this._log.add("afterViewChecked"); }
+  [afterViewChecked]() { this._log.add("afterViewChecked"); }
 }
 
 @Component({selector: 'my-comp'})

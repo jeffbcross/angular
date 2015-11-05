@@ -31,9 +31,13 @@ import {
   ViewChildren,
   ContentChild,
   ViewChild,
+  afterContentInit,
   AfterContentInit,
+  afterViewInit,
   AfterViewInit,
+  afterContentChecked,
   AfterContentChecked,
+  afterViewChecked,
   AfterViewChecked
 } from 'angular2/core';
 
@@ -685,7 +689,7 @@ class NeedsContentChildren implements AfterContentInit {
   @ContentChildren(TextDirective) textDirChildren: QueryList<TextDirective>;
   numberOfChildrenAfterContentInit: number;
 
-  afterContentInit() { this.numberOfChildrenAfterContentInit = this.textDirChildren.length; }
+  [afterContentInit]() { this.numberOfChildrenAfterContentInit = this.textDirChildren.length; }
 }
 
 @Component({selector: 'needs-view-children'})
@@ -694,7 +698,7 @@ class NeedsViewChildren implements AfterViewInit {
   @ViewChildren(TextDirective) textDirChildren: QueryList<TextDirective>;
   numberOfChildrenAfterViewInit: number;
 
-  afterViewInit() { this.numberOfChildrenAfterViewInit = this.textDirChildren.length; }
+  [afterViewInit]() { this.numberOfChildrenAfterViewInit = this.textDirChildren.length; }
 }
 
 @Component({selector: 'needs-content-child'})
@@ -711,9 +715,9 @@ class NeedsContentChild implements AfterContentInit, AfterContentChecked {
   get child() { return this._child; }
   log = [];
 
-  afterContentInit() { this.log.push(["init", isPresent(this.child) ? this.child.text : null]); }
+  [afterContentInit]() { this.log.push(["init", isPresent(this.child) ? this.child.text : null]); }
 
-  afterContentChecked() {
+  [afterContentChecked]() {
     this.log.push(["check", isPresent(this.child) ? this.child.text : null]);
   }
 }
@@ -739,9 +743,9 @@ class NeedsViewChild implements AfterViewInit,
   get child() { return this._child; }
   log = [];
 
-  afterViewInit() { this.log.push(["init", isPresent(this.child) ? this.child.text : null]); }
+  [afterViewInit]() { this.log.push(["init", isPresent(this.child) ? this.child.text : null]); }
 
-  afterViewChecked() { this.log.push(["check", isPresent(this.child) ? this.child.text : null]); }
+  [afterViewChecked]() { this.log.push(["check", isPresent(this.child) ? this.child.text : null]); }
 }
 
 

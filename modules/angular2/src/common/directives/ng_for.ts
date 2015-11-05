@@ -1,4 +1,4 @@
-import {DoCheck} from 'angular2/lifecycle_hooks';
+import {doCheck, DoCheck} from 'angular2/lifecycle_hooks';
 import {Directive} from 'angular2/src/core/metadata';
 import {
   ChangeDetectorRef,
@@ -79,7 +79,7 @@ export class NgFor implements DoCheck {
     }
   }
 
-  doCheck() {
+  [doCheck]() {
     if (isPresent(this._differ)) {
       var changes = this._differ.diff(this._ngForOf);
       if (isPresent(changes)) this._applyChanges(changes);

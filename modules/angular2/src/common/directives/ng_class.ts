@@ -1,5 +1,5 @@
 import {isPresent, isString, StringWrapper, isBlank, isArray} from 'angular2/src/facade/lang';
-import {DoCheck, OnDestroy} from 'angular2/lifecycle_hooks';
+import {doCheck, DoCheck, onDestroy, OnDestroy} from 'angular2/lifecycle_hooks';
 import {Directive} from 'angular2/src/core/metadata';
 import {ElementRef} from 'angular2/src/core/linker';
 import {
@@ -107,7 +107,7 @@ export class NgClass implements DoCheck, OnDestroy {
     }
   }
 
-  doCheck(): void {
+  [doCheck](): void {
     if (isPresent(this._differ)) {
       var changes = this._differ.diff(this._rawClass);
       if (isPresent(changes)) {
@@ -120,7 +120,7 @@ export class NgClass implements DoCheck, OnDestroy {
     }
   }
 
-  onDestroy(): void { this._cleanupClasses(this._rawClass); }
+  [onDestroy](): void { this._cleanupClasses(this._rawClass); }
 
   private _cleanupClasses(rawClassVal): void {
     this._applyClasses(rawClassVal, true);

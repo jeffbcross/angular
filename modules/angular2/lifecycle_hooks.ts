@@ -6,12 +6,20 @@
  */
 
 export {
+  afterContentInit,
   AfterContentInit,
+  afterContentChecked,
   AfterContentChecked,
+  afterViewInit,
   AfterViewInit,
+  afterViewChecked,
   AfterViewChecked,
+  onChanges,
   OnChanges,
+  onDestroy,
   OnDestroy,
+  onInit,
   OnInit,
+  doCheck,
   DoCheck
 } from './src/core/linker/interfaces';

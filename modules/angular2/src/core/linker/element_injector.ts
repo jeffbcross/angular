@@ -51,7 +51,7 @@ import {SetterFn} from 'angular2/src/core/reflection/types';
 import {EventConfig} from 'angular2/src/core/linker/event_config';
 import {PipeProvider} from 'angular2/src/core/pipes/pipe_provider';
 
-import {LifecycleHooks} from './interfaces';
+import {LifecycleHooks, onDestroy} from './interfaces';
 import {ViewContainerRef_} from "./view_container_ref";
 
 var _staticKeys;
@@ -810,43 +810,43 @@ class ElementInjectorInlineStrategy implements _ElementInjectorStrategy {
 
     if (p.provider0 instanceof DirectiveProvider &&
         (<DirectiveProvider>p.provider0).callOnDestroy) {
-      i.obj0.onDestroy();
+      i.obj0[onDestroy]();
     }
     if (p.provider1 instanceof DirectiveProvider &&
         (<DirectiveProvider>p.provider1).callOnDestroy) {
-      i.obj1.onDestroy();
+      i.obj1[onDestroy]();
     }
     if (p.provider2 instanceof DirectiveProvider &&
         (<DirectiveProvider>p.provider2).callOnDestroy) {
-      i.obj2.onDestroy();
+      i.obj2[onDestroy]();
     }
     if (p.provider3 instanceof DirectiveProvider &&
         (<DirectiveProvider>p.provider3).callOnDestroy) {
-      i.obj3.onDestroy();
+      i.obj3[onDestroy]();
     }
     if (p.provider4 instanceof DirectiveProvider &&
         (<DirectiveProvider>p.provider4).callOnDestroy) {
-      i.obj4.onDestroy();
+      i.obj4[onDestroy]();
     }
     if (p.provider5 instanceof DirectiveProvider &&
         (<DirectiveProvider>p.provider5).callOnDestroy) {
-      i.obj5.onDestroy();
+      i.obj5[onDestroy]();
     }
     if (p.provider6 instanceof DirectiveProvider &&
         (<DirectiveProvider>p.provider6).callOnDestroy) {
-      i.obj6.onDestroy();
+      i.obj6[onDestroy]();
     }
     if (p.provider7 instanceof DirectiveProvider &&
         (<DirectiveProvider>p.provider7).callOnDestroy) {
-      i.obj7.onDestroy();
+      i.obj7[onDestroy]();
     }
     if (p.provider8 instanceof DirectiveProvider &&
         (<DirectiveProvider>p.provider8).callOnDestroy) {
-      i.obj8.onDestroy();
+      i.obj8[onDestroy]();
     }
     if (p.provider9 instanceof DirectiveProvider &&
         (<DirectiveProvider>p.provider9).callOnDestroy) {
-      i.obj9.onDestroy();
+      i.obj9[onDestroy]();
     }
   }
 
@@ -936,7 +936,7 @@ class ElementInjectorDynamicStrategy implements _ElementInjectorStrategy {
     for (var i = 0; i < p.providers.length; i++) {
       if (p.providers[i] instanceof DirectiveProvider &&
           (<DirectiveProvider>p.providers[i]).callOnDestroy) {
-        ist.objs[i].onDestroy();
+        ist.objs[i][onDestroy]();
       }
     }
   }

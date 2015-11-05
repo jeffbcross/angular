@@ -1,4 +1,4 @@
-import {DoCheck} from 'angular2/lifecycle_hooks';
+import {doCheck, DoCheck} from 'angular2/lifecycle_hooks';
 import {
   KeyValueDiffer,
   KeyValueDiffers,
@@ -75,7 +75,7 @@ export class NgStyle implements DoCheck {
     }
   }
 
-  doCheck() {
+  [doCheck]() {
     if (isPresent(this._differ)) {
       var changes = this._differ.diff(this._rawStyle);
       if (isPresent(changes)) {

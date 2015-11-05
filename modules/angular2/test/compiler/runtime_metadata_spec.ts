@@ -15,7 +15,18 @@ import {
 
 import {stringify} from 'angular2/src/facade/lang';
 import {RuntimeMetadataResolver} from 'angular2/src/compiler/runtime_metadata';
-import {LifecycleHooks, LIFECYCLE_HOOKS_VALUES} from 'angular2/src/core/linker/interfaces';
+import {
+  LifecycleHooks,
+  onInit,
+  onDestroy,
+  doCheck,
+  onChanges,
+  afterContentInit,
+  afterContentChecked,
+  afterViewInit,
+  afterViewChecked,
+  LIFECYCLE_HOOKS_VALUES
+} from 'angular2/src/core/linker/interfaces';
 import {
   Component,
   View,
@@ -136,12 +147,12 @@ class DirectiveWithoutModuleId {
 class ComponentWithEverything implements OnChanges,
     OnInit, DoCheck, OnDestroy, AfterContentInit, AfterContentChecked, AfterViewInit,
     AfterViewChecked {
-  onChanges(changes: {[key: string]: SimpleChange}): void {}
-  onInit(): void {}
-  doCheck(): void {}
-  onDestroy(): void {}
-  afterContentInit(): void {}
-  afterContentChecked(): void {}
-  afterViewInit(): void {}
-  afterViewChecked(): void {}
+  [onChanges](changes: {[key: string]: SimpleChange}): void {}
+  [onInit](): void {}
+  [doCheck](): void {}
+  [onDestroy](): void {}
+  [afterContentInit](): void {}
+  [afterContentChecked](): void {}
+  [afterViewInit](): void {}
+  [afterViewChecked](): void {}
 }

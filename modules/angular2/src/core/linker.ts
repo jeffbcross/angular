@@ -1,12 +1,20 @@
 // Public API for compiler
 export {
+  afterContentInit,
   AfterContentInit,
+  afterContentChecked,
   AfterContentChecked,
+  afterViewInit,
   AfterViewInit,
+  afterViewChecked,
   AfterViewChecked,
+  onChanges,
   OnChanges,
+  onDestroy,
   OnDestroy,
+  onInit,
   OnInit,
+  doCheck,
   DoCheck
 } from './linker/interfaces';
 export {DirectiveResolver} from './linker/directive_resolver';

@@ -14,7 +14,17 @@ import {
 } from 'angular2/testing_internal';
 
 import {hasLifecycleHook} from 'angular2/src/core/linker/directive_lifecycle_reflector';
-import {LifecycleHooks} from 'angular2/src/core/linker/interfaces';
+import {
+  LifecycleHooks,
+  onInit,
+  onDestroy,
+  doCheck,
+  onChanges,
+  afterContentInit,
+  afterContentChecked,
+  afterViewInit,
+  afterViewChecked
+} from 'angular2/src/core/linker/interfaces';
 
 export function main() {
   describe('Create DirectiveMetadata', () => {
@@ -117,33 +127,33 @@ export function main() {
 class DirectiveNoHooks {}
 
 class DirectiveWithOnChangesMethod {
-  onChanges(_) {}
+  [onChanges](_) {}
 }
 
 class DirectiveWithOnInitMethod {
-  onInit() {}
+  [onInit]() {}
 }
 
 class DirectiveWithOnCheckMethod {
-  doCheck() {}
+  [doCheck]() {}
 }
 
 class DirectiveWithOnDestroyMethod {
-  onDestroy() {}
+  [onDestroy]() {}
 }
 
 class DirectiveWithAfterContentInitMethod {
-  afterContentInit() {}
+  [afterContentInit]() {}
 }
 
 class DirectiveWithAfterContentCheckedMethod {
-  afterContentChecked() {}
+  [afterContentChecked]() {}
 }
 
 class DirectiveWithAfterViewInitMethod {
-  afterViewInit() {}
+  [afterViewInit]() {}
 }
 
 class DirectiveWithAfterViewCheckedMethod {
-  afterViewChecked() {}
+  [afterViewChecked]() {}
 }

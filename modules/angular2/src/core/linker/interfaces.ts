@@ -12,6 +12,15 @@ export enum LifecycleHooks {
   AfterViewChecked
 }
 
+export const onInit = '$$LifecycleOnInit';
+export const onDestroy = '$$LifecycleOnDestroy';
+export const doCheck = '$$LifecycleDoCheck';
+export const onChanges = '$$LifecycleOnChanges';
+export const afterContentInit = '$$LifecycleAfterContentInit';
+export const afterContentChecked = '$$LifecycleAfterContentChecked';
+export const afterViewInit = '$$LifecycleAfterViewInit';
+export const afterViewChecked = '$$LifecycleAfterViewChecked';
+
 /**
  * @internal
  */
@@ -76,7 +85,7 @@ export var LIFECYCLE_HOOKS_VALUES = [
  * bootstrap(App).catch(err => console.error(err));
  * ```
  */
-export interface OnChanges { onChanges(changes: {[key: string]: SimpleChange}); }
+export interface OnChanges {}
 
 /**
  * Implement this interface to execute custom initialization logic after your directive's
@@ -119,7 +128,7 @@ export interface OnChanges { onChanges(changes: {[key: string]: SimpleChange}); 
  * bootstrap(App).catch(err => console.error(err));
  *  ```
  */
-export interface OnInit { onInit(); }
+export interface OnInit {}
 
 /**
  * Implement this interface to override the default change detection algorithm for your directive.
@@ -186,7 +195,7 @@ export interface OnInit { onInit(); }
  * }
  * ```
  */
-export interface DoCheck { doCheck(); }
+export interface DoCheck {}
 
 /**
  * Implement this interface to get notified when your directive is destroyed.
@@ -227,7 +236,7 @@ export interface DoCheck { doCheck(); }
  * bootstrap(App).catch(err => console.error(err));
  * ```
  */
-export interface OnDestroy { onDestroy(); }
+export interface OnDestroy {}
 
 /**
  * Implement this interface to get notified when your directive's content has been fully
@@ -280,7 +289,7 @@ export interface OnDestroy { onDestroy(); }
  * bootstrap(App).catch(err => console.error(err));
  * ```
  */
-export interface AfterContentInit { afterContentInit(); }
+export interface AfterContentInit {}
 
 /**
  * Implement this interface to get notified after every check of your directive's content.
@@ -328,7 +337,7 @@ export interface AfterContentInit { afterContentInit(); }
  * bootstrap(App).catch(err => console.error(err));
  * ```
  */
-export interface AfterContentChecked { afterContentChecked(); }
+export interface AfterContentChecked {}
 
 /**
  * Implement this interface to get notified when your component's view has been fully initialized.
@@ -375,7 +384,7 @@ export interface AfterContentChecked { afterContentChecked(); }
  * bootstrap(App).catch(err => console.error(err));
  * ```
  */
-export interface AfterViewInit { afterViewInit(); }
+export interface AfterViewInit {}
 
 /**
  * Implement this interface to get notified after every check of your component's view.
@@ -425,4 +434,4 @@ export interface AfterViewInit { afterViewInit(); }
  * bootstrap(App).catch(err => console.error(err));
  * ```
  */
-export interface AfterViewChecked { afterViewChecked(); }
+export interface AfterViewChecked {}

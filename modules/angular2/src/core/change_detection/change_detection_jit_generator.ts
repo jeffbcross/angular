@@ -1,6 +1,7 @@
 import {Type, assertionsEnabled, isBlank, isPresent, StringWrapper} from 'angular2/src/facade/lang';
 import {BaseException} from 'angular2/src/facade/exceptions';
 import {ListWrapper, MapWrapper, StringMapWrapper} from 'angular2/src/facade/collection';
+import {doCheck, onInit, onChanges} from 'angular2/src/core/linker/interfaces';
 
 import {AbstractChangeDetector} from './abstract_change_detector';
 import {ChangeDetectionUtil} from './change_detection_util';
@@ -473,19 +474,19 @@ export class ChangeDetectorJITGenerator {
   /** @internal */
   _genOnCheck(r: ProtoRecord): string {
     var br = r.bindingRecord;
-    return `if (!throwOnChange) ${this._names.getDirectiveName(br.directiveRecord.directiveIndex)}.doCheck();`;
+    return `if (!throwOnChange) ${this._names.getDirectiveName(br.directiveRecord.directiveIndex)}.${doCheck}();`;
   }
 
   /** @internal */
   _genOnInit(r: ProtoRecord): string {
     var br = r.bindingRecord;
-    return `if (!throwOnChange && ${this._names.getStateName()} === ${this.changeDetectorStateVarName}.NeverChecked) ${this._names.getDirectiveName(br.directiveRecord.directiveIndex)}.onInit();`;
+    return `if (!throwOnChange && ${this._names.getStateName()} === ${this.changeDetectorStateVarName}.NeverChecked) ${this._names.getDirectiveName(br.directiveRecord.directiveIndex)}.${onInit}();`;
   }
 
   /** @internal */
   _genOnChange(r: ProtoRecord): string {
     var br = r.bindingRecord;
-    return `if (!throwOnChange && ${CHANGES_LOCAL}) ${this._names.getDirectiveName(br.directiveRecord.directiveIndex)}.onChanges(${CHANGES_LOCAL});`;
+    return `if (!throwOnChange && ${CHANGES_LOCAL}) ${this._names.getDirectiveName(br.directiveRecord.directiveIndex)}.${onChanges}(${CHANGES_LOCAL});`;
   }
 
   /** @internal */

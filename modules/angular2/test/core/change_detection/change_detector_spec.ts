@@ -54,6 +54,17 @@ import {createObservableModel} from './change_detector_spec_util';
 import {getFactoryById} from './generated/change_detector_classes';
 import {IS_DART} from 'angular2/src/facade/lang';
 
+import {
+  onInit,
+  onDestroy,
+  doCheck,
+  onChanges,
+  afterContentInit,
+  afterContentChecked,
+  afterViewInit,
+  afterViewChecked
+} from 'angular2/src/core/linker/interfaces';
+
 const _DEFAULT_CONTEXT = CONST_EXPR(new Object());
 
 /**
@@ -1423,33 +1434,33 @@ class TestDirective {
 
   onEvent(event) { this.event = event; }
 
-  doCheck() { this.doCheckCalled = true; }
+  [doCheck]() { this.doCheckCalled = true; }
 
-  onInit() {
+  [onInit]() {
     this.onInitCalled = true;
     if (this.throwOnInit) {
       throw "simulated onInit failure";
     }
   }
 
-  onChanges(changes) {
+  [onChanges](changes) {
     var r = {};
     StringMapWrapper.forEach(changes, (c, key) => r[key] = c.currentValue);
     this.changes = r;
   }
 
-  afterContentInit() { this.afterContentInitCalled = true; }
+  [afterContentInit]() { this.afterContentInitCalled = true; }
 
-  afterContentChecked() {
+  [afterContentChecked]() {
     this.afterContentCheckedCalled = true;
     if (isPresent(this.afterContentCheckedSpy)) {
       this.afterContentCheckedSpy();
     }
   }
 
-  afterViewInit() { this.afterViewInitCalled = true; }
+  [afterViewInit]() { this.afterViewInitCalled = true; }
 
-  afterViewChecked() {
+  [afterViewChecked]() {
     this.afterViewCheckedCalled = true;
     if (isPresent(this.afterViewCheckedSpy)) {
       this.afterViewCheckedSpy();
