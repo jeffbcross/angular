@@ -11,6 +11,15 @@ enum LifecycleHooks {
   AfterViewChecked
 }
 
+const onInit = 'onInit';
+const onDestroy = 'onDestroy';
+const doCheck = 'doCheck';
+const onChanges = 'onChanges';
+const afterContentInit = 'afterContentInit';
+const afterContentChecked = 'afterContentChecked';
+const afterViewInit = 'afterViewInit';
+const afterViewChecked = 'afterViewChecked';
+
 var LIFECYCLE_HOOKS_VALUES = [
   LifecycleHooks.OnInit,
   LifecycleHooks.OnDestroy,
