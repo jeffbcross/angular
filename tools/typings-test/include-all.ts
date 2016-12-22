@@ -17,6 +17,8 @@ import * as platformBrowserDynmic from '@angular/platform-browser-dynamic';
 import * as platformBrowser from '@angular/platform-browser/testing';
 import * as platfomrServerTesting from '@angular/platform-server';
 import * as platfomrServer from '@angular/platform-server/testing';
+import * as platformUniversalTesting from '@angular/platform-universal';
+import * as platformUniversal from '@angular/platform-universal/testing';
 import * as routerTesting from '@angular/router';
 import * as router from '@angular/router/testing';
 import * as upgrade from '@angular/upgrade';
@@ -33,6 +35,8 @@ export default {
   platformBrowserDynmic,
   platfomrServer,
   platfomrServerTesting,
+  platformUniversalTesting,
+  platformUniversal,
   router,
   routerTesting,
   upgrade

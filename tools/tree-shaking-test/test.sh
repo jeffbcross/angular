@@ -17,6 +17,7 @@ for PACKAGE in \
   common \
   platform-browser \
   platform-server \
+  platform-universal \
   http \
   router \
   upgrade

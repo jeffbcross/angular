@@ -22,6 +22,7 @@ for PACKAGE in \
   http \
   platform-browser \
   platform-server \
+  platform-universal \
   upgrade
 do
   DESTDIR=./dist/packages-dist/${PACKAGE}

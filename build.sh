@@ -11,6 +11,7 @@ PACKAGES=(core
   platform-browser
   platform-browser-dynamic
   platform-server
+  platform-universal
   platform-webworker
   platform-webworker-dynamic
   http
@@ -215,7 +216,7 @@ do
       fi
     ) 2>&1 | grep -v "as external dependency"
   fi
-  
+
   (
     echo "======      VERSION: Updating version references"
     cd ${DESTDIR}

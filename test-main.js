@@ -49,6 +49,8 @@ System.config({
     '@angular/platform-browser-dynamic': {main: 'index.js', defaultExtension: 'js'},
     '@angular/platform-server/testing': {main: 'index.js', defaultExtension: 'js'},
     '@angular/platform-server': {main: 'index.js', defaultExtension: 'js'},
+    '@angular/platform-universal/testing': {main: 'index.js', defaultExtension: 'js'},
+    '@angular/platform-universal': {main: 'index.js', defaultExtension: 'js'},
     '@angular/platform-webworker': {main: 'index.js', defaultExtension: 'js'},
     '@angular/platform-webworker-dynamic': {main: 'index.js', defaultExtension: 'js'},
   }

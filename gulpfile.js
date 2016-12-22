@@ -67,6 +67,8 @@ const entrypoints = [
   'dist/packages-dist/platform-webworker-dynamic/index.d.ts',
   'dist/packages-dist/platform-server/index.d.ts',
   'dist/packages-dist/platform-server/testing/index.d.ts',
+  'dist/packages-dist/platform-universal/index.d.ts',
+  'dist/packages-dist/platform-universal/testing/index.d.ts',
   'dist/packages-dist/http/index.d.ts',
   'dist/packages-dist/http/testing/index.d.ts',
   'dist/packages-dist/forms/index.d.ts',
