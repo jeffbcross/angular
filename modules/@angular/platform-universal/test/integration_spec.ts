@@ -10,6 +10,7 @@ import {Component, NgModule, destroyPlatform} from '@angular/core';
 import {async} from '@angular/core/testing';
 import {getDOM} from '@angular/platform-browser/src/dom/dom_adapter';
 import {ServerModule, platformDynamicServer} from '@angular/platform-server';
+import { platformUniversal } from '@angular/platform-universal';
 
 function writeBody(html: string): any {
   const dom = getDOM();
@@ -24,6 +25,7 @@ function writeBody(html: string): any {
 class MyServerApp {
 }
 
+
 @NgModule({declarations: [MyServerApp], imports: [ServerModule], bootstrap: [MyServerApp]})
 class ExampleModule {
 }
@@ -36,10 +38,10 @@ export function main() {
     beforeEach(() => destroyPlatform());
     afterEach(() => destroyPlatform());
 
-    it('should bootstrap', async(() => {
-         const body = writeBody('<app></app>');
-         platformDynamicServer().bootstrapModule(ExampleModule).then(() => {
-           expect(getDOM().getText(body)).toEqual('Works!');
+    fit('should bootstrap', async(() => {
+         writeBody('<app></app>');
+         platformUniversal().serializeModule(ExampleModule).then((body) => {
+           expect(body).toContain('Works!');
          });
        }));
   });
